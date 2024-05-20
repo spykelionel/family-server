@@ -1,1 +1,3 @@
-export const DB_URL = process.env.DB_URL;
+const { DB_URL, PORT } = process.env;
+
+module.exports = { DB_URL, PORT };

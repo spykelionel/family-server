@@ -2,8 +2,6 @@ const winston = require("winston");
 const path = require("path");
 const url = require("url");
 
-const __filename = url.fileURLToPath(__filename);
-const __dirname = path.dirname(__filename);
 const format = winston.format;
 const combine = format.combine;
 const timestamp = format.timestamp;

@@ -3,6 +3,6 @@ const { verify, logout } = require("../middlewares/auth.middleware");
 
 const authRouter = require("express").Router();
 
-authRouter.get("/login", login).post("/logout", verify, logout);
+authRouter.post("/login", login).post("/logout", verify, logout);
 
 module.exports = authRouter;

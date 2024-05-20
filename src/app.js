@@ -5,6 +5,7 @@ const compression = require("compression");
 const cors = require("cors");
 const morgan = require("morgan");
 const { connectDB } = require("./lib/config/mongoose.cofig");
+const userRouter = require("./routes/user.routes");
 require("dotenv").config();
 
 const app = express();
@@ -35,6 +36,13 @@ if (process.env.SERVER_ENV === "prod") {
 } else {
   app.use(morgan("dev"));
 }
+
+app.use("/users", userRouter);
+app.get("/", (req, res) => {
+  res.send({
+    message: "WElcome to my express server",
+  });
+});
 
 app.use(identifyError, handleError);
 
@@ -68,11 +76,5 @@ function handleError(err, req, res) {
     },
   });
 }
-
-app.get("/", (req, res) => {
-  res.send({
-    message: "WElcome to my express server",
-  });
-});
 
 module.exports = { app };

@@ -11,10 +11,11 @@ const logout = (req, res) => {
         .json({ ...error, status: 401, message: "Error verifying user" });
     } else {
       req.headers["authorization"] = undefined;
+      logger.info(req.headers["authorization"]);
       logger.info("Found authorization header. Terminating user....");
+      req.user = undefined;
+      return res.status(201).json({ message: "User logged out successfuly" });
     }
-
-    return res.send(201).json({ message: "User logged out successfuly" });
   } catch (error) {
     return res
       .status(401)

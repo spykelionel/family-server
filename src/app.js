@@ -6,6 +6,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const { connectDB } = require("./lib/config/mongoose.cofig");
 const userRouter = require("./routes/user.routes");
+const authRouter = require("./routes/auth.routes");
 require("dotenv").config();
 
 const app = express();
@@ -38,9 +39,10 @@ if (process.env.SERVER_ENV === "prod") {
 }
 
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 app.get("/", (req, res) => {
   res.send({
-    message: "WElcome to my express server",
+    message: "Welcome to my family server",
   });
 });
 

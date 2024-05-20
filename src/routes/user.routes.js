@@ -1,7 +1,8 @@
 const { register, getAllUsers } = require("../controllers/user.controller");
+const { verify } = require("../middlewares/auth.middleware");
 
 const userRouter = require("express").Router();
 
-userRouter.get("/", getAllUsers).post("/create", register);
+userRouter.get("/", verify, getAllUsers).post("/create", register);
 
 module.exports = userRouter;

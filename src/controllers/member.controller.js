@@ -3,7 +3,7 @@ const logger = require("../lib/util/util");
 
 const create = async (req, res) => {
   try {
-    const member = new User(req.body);
+    const member = new Member(req.body);
     await member.save();
     logger.info("Saving member");
     return res.status(201).json({ message: "User saved", status: 201, member });
@@ -17,7 +17,7 @@ const create = async (req, res) => {
 
 const getAllMembers = async (req, res) => {
   try {
-    const members = await Member.find({});
+    const members = await Member.find({}).populate("mother father");
     logger.info(members);
     return res.status(200).json({ message: "members", status: 200, members });
   } catch (error) {
@@ -28,4 +28,48 @@ const getAllMembers = async (req, res) => {
   }
 };
 
-module.exports = { create, getAllMembers };
+const updateMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body; // this can contain any subset of the member fields
+
+    const updatedMember = await Member.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true }
+    );
+
+    if (!updatedMember) {
+      return res.status(404).json({ message: "Member not found", status: 404 });
+    }
+
+    logger.info("Updating member");
+    return res
+      .status(200)
+      .json({ message: "Member updated", status: 200, member: updatedMember });
+  } catch (error) {
+    logger.error(error);
+    return res
+      .status(500)
+      .json({ message: "Could not update member", status: 500, error: error });
+  }
+};
+
+const deleteMember = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedMember = await Member.findByIdAndDelete(id);
+    if (!deletedMember) {
+      return res.status(404).json({ message: "Member not found", status: 404 });
+    }
+    logger.info("Deleting member");
+    return res.status(200).json({ message: "Member deleted", status: 200 });
+  } catch (error) {
+    logger.error(error);
+    return res
+      .status(500)
+      .json({ message: "Could not delete member", status: 500, error: error });
+  }
+};
+
+module.exports = { create, getAllMembers, updateMember, deleteMember };

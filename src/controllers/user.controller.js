@@ -20,7 +20,6 @@ const register = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    logger.info(users);
     return res.status(200).json({ message: "Users", status: 200, users });
   } catch (error) {
     console.log(error);

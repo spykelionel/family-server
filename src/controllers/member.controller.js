@@ -3,7 +3,8 @@ const logger = require("../lib/util/util");
 
 const create = async (req, res) => {
   try {
-    const member = new Member(req.body);
+    const user = req.user._id;
+    const member = new Member({ ...req.body, user });
     await member.save();
     logger.info("Saving member");
     return res.status(201).json({ message: "User saved", status: 201, member });
@@ -17,7 +18,8 @@ const create = async (req, res) => {
 
 const getAllMembers = async (req, res) => {
   try {
-    const members = await Member.find({}).populate("mother father");
+    const user = req.user._id;
+    const members = await Member.find({ user }).populate("mother father");
     logger.info(members);
     return res.status(200).json({ message: "members", status: 200, members });
   } catch (error) {

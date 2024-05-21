@@ -3,6 +3,6 @@ const { verify } = require("../middlewares/auth.middleware");
 
 const userRouter = require("express").Router();
 
-userRouter.get("/", verify, getAllUsers).post("/create", register);
+userRouter.post("/create", register).get("/", verify, getAllUsers);
 
 module.exports = userRouter;

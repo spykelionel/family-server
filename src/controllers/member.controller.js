@@ -75,4 +75,46 @@ const deleteMember = async (req, res) => {
   }
 };
 
-module.exports = { create, getAllMembers, updateMember, deleteMember };
+const getStats = async (req, res) => {
+  try {
+    const userId = req.user._id || req.user.user._id;
+
+    const totalMembers = await Member.countDocuments({ user: userId });
+    const fathersCount = await Member.countDocuments({
+      user: userId,
+      father: { $exists: true },
+    });
+    const mothersCount = await Member.countDocuments({
+      user: userId,
+      mother: { $exists: true },
+    });
+
+    logger.info(
+      `Stats for user ${userId}: ${totalMembers} members, ${fathersCount} fathers, ${mothersCount} mothers`
+    );
+    return res.status(200).json({
+      message: "Stats retrieved successfully",
+      status: 200,
+      stats: {
+        totalMembers,
+        fathersCount,
+        mothersCount,
+      },
+    });
+  } catch (error) {
+    logger.error(error);
+    return res.status(500).json({
+      message: "Could not retrieve stats",
+      status: 500,
+      error: error,
+    });
+  }
+};
+
+module.exports = {
+  create,
+  getAllMembers,
+  updateMember,
+  deleteMember,
+  getStats,
+};

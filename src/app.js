@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const { connectDB } = require("./lib/config/mongoose.cofig");
 const userRouter = require("./routes/user.routes");
 const authRouter = require("./routes/auth.routes");
+const memberRouter = require("./routes/member.routes");
 require("dotenv").config();
 
 const app = express();
@@ -40,6 +41,7 @@ if (process.env.SERVER_ENV === "prod") {
 
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use("/members", memberRouter);
 app.get("/", (req, res) => {
   res.send({
     message: "Welcome to my family server",

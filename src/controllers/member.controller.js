@@ -15,6 +15,17 @@ const create = async (req, res) => {
   }
 };
 
-const getAllMembers = async (req, res) => {};
+const getAllMembers = async (req, res) => {
+  try {
+    const members = await Member.find({});
+    logger.info(members);
+    return res.status(200).json({ message: "members", status: 200, members });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ message: "Could not return members", status: 500, error: error });
+  }
+};
 
-module.exports = { create };
+module.exports = { create, getAllMembers };

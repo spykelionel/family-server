@@ -9,9 +9,9 @@ const { verify } = require("../middlewares/auth.middleware");
 const memberRouter = require("express").Router();
 
 memberRouter
-  .get("/", getAllMembers)
-  .post("/create", create)
-  .put("/update/:id", updateMember)
-  .delete("/delete/:id", deleteMember);
+  .get("/", verify, getAllMembers)
+  .post("/create", verify, create)
+  .put("/update/:id", verify, updateMember)
+  .delete("/delete/:id", verify, deleteMember);
 
 module.exports = memberRouter;

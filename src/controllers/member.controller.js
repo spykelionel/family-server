@@ -3,7 +3,8 @@ const logger = require("../lib/util/util");
 
 const create = async (req, res) => {
   try {
-    const user = req.user._id;
+    const user = req.user.user._id;
+    logger.info(`User: ${JSON.stringify(req.user)}`);
     const member = new Member({ ...req.body, user });
     await member.save();
     logger.info("Saving member");

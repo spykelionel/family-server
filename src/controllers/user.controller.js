@@ -9,7 +9,9 @@ const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
-    return res.status(201).json({ message: "User saved", status: 201, user });
+    return res
+      .status(201)
+      .json({ message: "User saved", status: 201, user, success: true });
   } catch (error) {
     logger.error(error);
     return res
@@ -39,9 +41,13 @@ const login = async (req, res) => {
     }
     logger.info(`Signing user with key: ${process.env.JWT_SECRET}`);
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
-    res
-      .status(201)
-      .json({ name: user.name, email: user.email, password: undefined, token });
+    res.status(201).json({
+      name: user.name,
+      email: user.email,
+      password: undefined,
+      token,
+      success: true,
+    });
   } catch (error) {
     logger.error(error);
     return res

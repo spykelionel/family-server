@@ -20,7 +20,7 @@ const create = async (req, res) => {
 const getAllMembers = async (req, res) => {
   try {
     const user = req.user.user._id;
-    const members = await Member.find({ user }).populate("mother father");
+    const members = await Member.find({ user }).populate("mother father user");
     logger.info(members);
     return res.status(200).json({ message: "members", status: 200, members });
   } catch (error) {

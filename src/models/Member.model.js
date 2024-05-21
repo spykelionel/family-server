@@ -9,7 +9,7 @@ const MemberSchema = new mongoose.Schema(
     phoneNumber: String,
     father: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
     mother: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", require: true },
   },
   { timestamps: true }
 );

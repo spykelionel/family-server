@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const MemberSchema = new mongoose.Schema({
   name: String,
   email: String,
-  dateOfBirth: Date,
+  dateOfBirth: String,
   placeOfResidence: String,
   phoneNumber: String,
   father: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },

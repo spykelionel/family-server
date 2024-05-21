@@ -11,6 +11,7 @@ const register = async (req, res) => {
     await user.save();
     return res.status(201).json({ message: "User saved", status: 201, user });
   } catch (error) {
+    logger.error(error);
     return res
       .status(500)
       .json({ message: "Could not create user", status: 500, error: error });
@@ -22,7 +23,7 @@ const getAllUsers = async (req, res) => {
     const users = await User.find({});
     return res.status(200).json({ message: "Users", status: 200, users });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return res
       .status(500)
       .json({ message: "Could not return users", status: 500, error: error });
@@ -42,6 +43,7 @@ const login = async (req, res) => {
       .status(201)
       .json({ name: user.name, email: user.email, password: undefined, token });
   } catch (error) {
+    logger.error(error);
     return res
       .status(500)
       .json({ message: "Could not login user", status: 500, error: error });
